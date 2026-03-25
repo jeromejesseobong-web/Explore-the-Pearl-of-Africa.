@@ -174,16 +174,6 @@ transition:0.3s;
 background:#083a55;
 }
 /* ===============================
-FOOTER
-=============================== */
-footer{
-background:#0c4a6e;
-color:white;
-text-align:center;
-padding:20px 0;
-margin-top:40px;
-}
-/* ===============================
 RESPONSIVE DESIGN
 Mobile Friendly
 =============================== */
@@ -295,7 +285,7 @@ text-decoration:none;
 border-radius:6px;
 font-weight:bold;
 transition:0.3s;
-1a}
+}
 .btn:hover{
 background:#f4c400;
 }
@@ -516,6 +506,7 @@ text-decoration: none;
 color: black;
 border-radius: 5px;
 font-weight: bold;
+text-align: ;
 }
 .btn-primary:hover{
 background: #f4c400;
@@ -524,10 +515,10 @@ background: #f4c400;
 .destination-hero{
 background-image: url("/images/bwindi.avif");
 background-size: cover;
-background-position: center;
+background-position:center;
 color: white;
-text-align: center;
-padding: 242px 20px;
+text-align:center;
+padding: 230px 20px;
 }
 /* DESTINATION SECTION */
 .destination-section{
@@ -822,16 +813,6 @@ background: #f5f7fa;
 color: #0c4a6e;
 margin-bottom: 20px;
 }
-
-/* FOOTER */
-footer{
-background: #0c4a6e;
-color: white;
-text-align: center;
-padding: 20px;
-margin-top: 40px;
-}
-
 /* HERO / INTRO SECTION */
 .dashboard-intro {
   background-image: url("/images/Community\ Tourism.webp");
@@ -881,12 +862,4 @@ margin-top: 40px;
 .future-data h2 {
   color: #0c4a6e;
   margin-bottom: 20px;
-}
-/* FOOTER */
-footer {
-  background: #0c4a6e;
-  color: white;
-  text-align: center;
-  padding: 20px;
-  margin-top: 40px;
 }
