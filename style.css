@@ -290,12 +290,12 @@ margin-bottom:25px;
 .btn{
 background:#f4c400;
 color:black;
-padding:12px 25px;
+padding:15px 25px;
 text-decoration:none;
 border-radius:6px;
 font-weight:bold;
 transition:0.3s;
-}
+1a}
 .btn:hover{
 background:#f4c400;
 }
@@ -527,7 +527,7 @@ background-size: cover;
 background-position: center;
 color: white;
 text-align: center;
-padding: 120px 20px;
+padding: 242px 20px;
 }
 /* DESTINATION SECTION */
 .destination-section{
