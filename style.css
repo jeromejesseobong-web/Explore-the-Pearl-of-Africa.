@@ -147,13 +147,6 @@ background:white;
 padding:60px 0;
 }
 
-form{
-display:flex;
-flex-direction:column;
-gap:15px;
-max-width:500px;
-}
-
 input,
 textarea{
 padding:10px;
