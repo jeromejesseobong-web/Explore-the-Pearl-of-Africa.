@@ -151,35 +151,6 @@ nav ul{
 flex-direction:column;
 align-items:center;
 }
-/* ===============================
-CONTAINER
-Keeps content centered
-=============================== */
-
-.container{
-width:90%;
-max-width:1100px;
-margin:auto;
-}
-
-
-/* ===============================
-HEADER
-=============================== */
-
-header{
-background:#0c4a6e;
-color:white;
-padding:15px 0;
-}
-
-header .container{
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-
 /* Logo */
 
 .logo{
@@ -331,9 +302,6 @@ width:100%;
 
 }
 }
-/* ====================================
-GLOBAL WEBSITE STYLING
-==================================== */
 
 *{
 margin:0;
@@ -344,15 +312,14 @@ list-style: none;
 }
 
 body{
-background:#f5f7fa;
+background:#f7f8f9;
 color:#333;
 line-height:1.6;
 }
 
 
 /* ====================================
-CONTAINER
-Centers content
+TOP DESTINATIONS
 ==================================== */
 
 .container{
