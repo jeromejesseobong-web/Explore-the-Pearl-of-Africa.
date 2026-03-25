@@ -35,7 +35,7 @@ color:#ffd700;
 background-image: url("images/hero.jpg");
 background-size: cover;
 background-position: center;
-height: 85vh;
+height: 85px;
 
 display: flex;
 align-items: center;
@@ -1458,4 +1458,8 @@ footer {
   text-align: center;
   padding: 20px;
   margin-top: 40px;
+}
+/* BOOKING PAGE IMPROVEMENT */
+.contact-intro {
+  background-image: url("images/hero.jpg");
 }
