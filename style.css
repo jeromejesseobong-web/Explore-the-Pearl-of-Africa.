@@ -1,15 +1,3 @@
-body{
-background:#f4f4f4;
-color:#333;
-line-height:1.6;
-}
-
-.container{
-width:90%;
-max-width:1100px;
-margin:auto;
-}
-
 header{
 background:#0c4a6e;
 color:white;
@@ -195,19 +183,6 @@ nav ul{
 flex-direction:column;
 align-items:center;
 }
-
-/* ===============================
-GENERAL WEBSITE STYLING
-=============================== */
-
-
-body{
-background:#f9f9f9;
-color:#333;
-line-height:1.6;
-}
-
-
 /* ===============================
 CONTAINER
 Keeps content centered
