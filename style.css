@@ -1,12 +1,7 @@
-header{
-background:#0c4a6e;
-color:white;
-padding:15px 0;
-}
-header .container{
-display:flex;
-justify-content:space-between;
-align-items:center;
+.plus{
+  ;
+
+
 }
 .logo{
 font-size:24px;
@@ -82,11 +77,6 @@ border-radius:5px;
 }
 textarea{
 height:120px;
-}
-@media(max-width:768px){
-header .container{
-flex-direction:column;
-}
 nav ul{
 flex-direction:column;
 align-items:center;
@@ -224,6 +214,7 @@ position:sticky;
 top:0;
 z-index:100;
 }
+
 header .container{
 display:flex;
 justify-content:space-between;
@@ -506,19 +497,18 @@ text-decoration: none;
 color: black;
 border-radius: 5px;
 font-weight: bold;
-text-align: ;
 }
 .btn-primary:hover{
 background: #f4c400;
 }
 /* DESTINATION HERO */
 .destination-hero{
-background-image: url("/images/bwindi.avif");
 background-size: cover;
 background-position:center;
 color: white;
 text-align:center;
 padding: 230px 20px;
+display: grid;
 }
 /* DESTINATION SECTION */
 .destination-section{
