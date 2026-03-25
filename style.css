@@ -31,25 +31,6 @@ nav ul li a:hover{
 color:#ffd700;
 }
 
-.hero{
-background-image: url("images/hero.jpg");
-background-size: cover;
-background-position: center;
-height: 85px;
-
-display: flex;
-align-items: center;
-justify-content: center;
-text-align: center;
-color: white;
-}
-
-.hero-content{
-background:rgba(0,0,0,0.5);
-padding:40px;
-border-radius:10px;
-}
-
 .btn{
 display:inline-block;
 background:#ffd700;
