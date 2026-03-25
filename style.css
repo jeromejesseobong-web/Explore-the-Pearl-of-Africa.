@@ -139,13 +139,7 @@ textarea{
 height:120px;
 }
 
-footer{
-background:#0c4a6e;
-color:white;
-text-align:center;
-padding:20px;
-margin-top:40px;
-}
+
 
 @media(max-width:768px){
 
