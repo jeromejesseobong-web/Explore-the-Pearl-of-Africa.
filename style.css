@@ -1,8 +1,3 @@
-.plus{
-  ;
-
-
-}
 .logo{
 font-size:24px;
 font-weight:bold;
@@ -168,10 +163,6 @@ RESPONSIVE DESIGN
 Mobile Friendly
 =============================== */
 @media (max-width:768px){
-header .container{
-flex-direction:column;
-gap:10px;
-}
 nav ul{
 flex-direction:column;
 align-items:center;
@@ -257,7 +248,7 @@ color:white;
 background:rgba(0,0,0,0.55);
 padding:40px;
 border-radius:10px;
-max-width:600px;
+max-width:700px;
 }
 .hero h1{
 font-size:48px;
@@ -501,15 +492,6 @@ font-weight: bold;
 .btn-primary:hover{
 background: #f4c400;
 }
-/* DESTINATION HERO */
-.destination-hero{
-background-size: cover;
-background-position:center;
-color: white;
-text-align:center;
-padding: 230px 20px;
-display: grid;
-}
 /* DESTINATION SECTION */
 .destination-section{
 padding: 60px 0;
@@ -519,6 +501,23 @@ background: #f5f7fa;
 text-align: center;
 margin-bottom: 40px;
 }
+.destination-button{
+padding: 15px;
+border-radius: 5px;
+background: #f4c400;
+max-width: 900px;
+display: flex;
+transition:0.3s ;
+margin: auto;
+}
+.btn-1{
+text-align: center;
+text-decoration: none;
+color: black;
+font-weight: bold;
+}
+.destination-button:hover{
+background: #d3a902;}
 /* CARD */
 .destination-card{
 background: white;
