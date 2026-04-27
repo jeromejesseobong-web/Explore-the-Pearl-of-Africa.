@@ -4,8 +4,10 @@ const bookingForm = document.querySelector("form");
 bookingForm.addEventListener("submit", function (e) {
   let name = document.querySelector("input[type='text']").value.trim();
   let email = document.querySelector("input[type='email']").value.trim();
-  let phone = document.querySelector("input[type='tel']").value.trim();
-  let people = document.querySelector("input[type='number']").value;
+  if (!fullPhone.match(/^\+\d{7,15}$/)) {
+    alert("Please enter a valid phone number.");
+    e.preventDefault();
+    let people = document.querySelector("input[type='number']").value;
   let date = document.querySelector("input[type='date']").value;
   let package = document.querySelector("select").value;
 
@@ -22,8 +24,9 @@ bookingForm.addEventListener("submit", function (e) {
   }
 
   // Phone validation (+256 format)
-  if (!phone.match(/^\+256\d{9}$/)) {
-    errors.push("Phone number must start with +256 and have 9 digits.");
+  if (!fullPhone.match(/^\+\d{7,15}$/)) {
+    alert("Please enter a valid phone number.");
+    e.preventDefault();
   }
 
   // Tour package validation
