@@ -12,6 +12,7 @@ bookingForm.addEventListener("submit", function (e) {
   let package = document.querySelector("select").value;
 
   let errors = [];}
+  
 
   // Name validation
   if (name === "") {
@@ -50,3 +51,23 @@ bookingForm.addEventListener("submit", function (e) {
     e.preventDefault(); // stop form submission
   }
 });
+// Tour packages array
+const tourPackages = [
+  { id: 1, name: "3 Day Gorilla Trekking", price: 1800 },
+  { id: 2, name: "5 Day Wildlife Safari", price: 2200 },
+  { id: 3, name: "Nile Adventure Tour", price: 600 },
+  { id: 4, name: "Cultural Heritage Tour", price: 350 },
+  { id: 5, name: "Lake Victoria Escape", price: 900 },
+  { id: 6, name: "Rwenzori Mountain Trek", price: 2500 }
+];
+// Empty cart to store the selected tours
+let cart = [];
+
+function addToCart(packageId) {
+  const selectedPackage = tourPackages.find((pkg) => pkg.id === packageId);
+  if (selectedPackage) {
+    cart.push(selectedPackage);
+    alert(`${selectedPackage.name} has been added to your cart!`);
+    console.log(cart); 
+  }
+}
