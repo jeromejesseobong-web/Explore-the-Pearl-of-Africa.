@@ -25,32 +25,11 @@ if (bookingForm) {
     if (errors.length > 0) {
       alert(errors.join("\n"));
       e.preventDefault();
+    } else {
+      // Optional: clear cart after successful booking
+      localStorage.removeItem("cart");
     }
   });
-
-  // Show saved cart summary on book.html
-  const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-  if (savedCart.length > 0) {
-    const cartSummary = document.createElement("div");
-    cartSummary.innerHTML = "<h3>Your Selected Tours:</h3>";
-    let ul = document.createElement("ul");
-
-    let total = 0;
-    savedCart.forEach((item) => {
-      let li = document.createElement("li");
-      li.textContent = `${item.name} - $${item.price}`;
-      ul.appendChild(li);
-      total += item.price;
-    });
-
-    let totalLi = document.createElement("li");
-    totalLi.classList.add("cart-total");
-    totalLi.textContent = `Total: $${total}`;
-    ul.appendChild(totalLi);
-
-    cartSummary.appendChild(ul);
-    bookingForm.parentNode.insertBefore(cartSummary, bookingForm);
-  }
 }
 
 // --------------------
@@ -65,12 +44,13 @@ const tourPackages = [
   { id: 6, name: "Rwenzori Mountain Trek", price: 2500 },
 ];
 
-let cart = [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function addToCart(packageId) {
   const selectedPackage = tourPackages.find((pkg) => pkg.id === packageId);
   if (selectedPackage) {
     cart.push(selectedPackage);
+    localStorage.setItem("cart", JSON.stringify(cart));
     displayCart();
     updateCartBadge();
     alert(`${selectedPackage.name} has been added to your cart!`);
@@ -79,12 +59,14 @@ function addToCart(packageId) {
 
 function removeFromCart(index) {
   cart.splice(index, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
   displayCart();
   updateCartBadge();
 }
 
 function clearCart() {
   cart = [];
+  localStorage.removeItem("cart");
   displayCart();
   updateCartBadge();
 }
@@ -104,7 +86,6 @@ function displayCart() {
     let li = document.createElement("li");
     li.textContent = `${item.name} - $${item.price} `;
 
-    // Remove button styled with .btn
     let removeBtn = document.createElement("button");
     removeBtn.textContent = "Remove";
     removeBtn.className = "btn";
@@ -116,13 +97,11 @@ function displayCart() {
     total += item.price;
   });
 
-  // Total line
   let totalLi = document.createElement("li");
   totalLi.classList.add("cart-total");
   totalLi.textContent = `Total: $${total}`;
   cartList.appendChild(totalLi);
 
-  // Checkout button styled with .btn-primary
   let checkoutBtn = document.createElement("button");
   checkoutBtn.textContent = "Proceed to Checkout";
   checkoutBtn.className = "btn-primary";
@@ -132,7 +111,6 @@ function displayCart() {
   };
   cartList.appendChild(checkoutBtn);
 
-  // Clear Cart button styled with .btn
   let clearBtn = document.createElement("button");
   clearBtn.textContent = "Clear Cart";
   clearBtn.className = "btn";
@@ -141,24 +119,42 @@ function displayCart() {
 }
 
 // --------------------
-// Cart Badge in Header
+// Cart Badge + Checkout in Header
 // --------------------
 function updateCartBadge() {
   let badge = document.getElementById("cart-badge");
-  if (!badge) {
-    const nav = document.querySelector("nav ul");
-    if (nav) {
-      let li = document.createElement("li");
-      badge = document.createElement("a");
-      badge.id = "cart-badge";
-      badge.href = "#cart";
-      badge.className = "btn";
-      badge.textContent = `Cart (0)`;
-      li.appendChild(badge);
-      nav.appendChild(li);
-    }
+  let checkoutLink = document.getElementById("checkout-link");
+
+  const nav = document.querySelector("nav ul");
+
+  if (!badge && nav) {
+    let li = document.createElement("li");
+    badge = document.createElement("a");
+    badge.id = "cart-badge";
+    badge.href = "#cart";
+    badge.className = "btn-primary";
+    badge.textContent = `Cart (0)`;
+    li.appendChild(badge);
+    nav.appendChild(li);
   }
+
+  if (!checkoutLink && nav) {
+    let li = document.createElement("li");
+    checkoutLink = document.createElement("a");
+    checkoutLink.id = "checkout-link";
+    checkoutLink.href = "book.html";
+    checkoutLink.className = "btn-primary";
+    checkoutLink.textContent = "Checkout";
+    li.appendChild(checkoutLink);
+    nav.appendChild(li);
+  }
+
   if (badge) {
     badge.textContent = `Cart (${cart.length})`;
   }
 }
+
+// Initialize on page load
+updateCartBadge();
+displayCart();
+
