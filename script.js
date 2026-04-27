@@ -1,8 +1,66 @@
 // --------------------
+// Tour Packages Array (shared)
+// --------------------
+const tourPackages = [
+  { id: 1, name: "3 Day Gorilla Trekking", price: 1800 },
+  { id: 2, name: "5 Day Wildlife Safari", price: 2200 },
+  { id: 3, name: "Nile Adventure Tour", price: 600 },
+  { id: 4, name: "Cultural Heritage Tour", price: 350 },
+  { id: 5, name: "Lake Victoria Escape", price: 900 },
+  { id: 6, name: "Rwenzori Mountain Trek", price: 2500 }
+];
+
+// --------------------
 // Booking Form Validation (book.html)
 // --------------------
 const bookingForm = document.querySelector("form");
 if (bookingForm) {
+  const tourSelect = document.getElementById("tourSelect");
+
+  // ✅ Populate select from tourPackages
+  if (tourSelect) {
+    tourSelect.innerHTML = "";
+    tourPackages.forEach(pkg => {
+      let option = document.createElement("option");
+      option.value = pkg.id;
+      option.textContent = `${pkg.name} ($${pkg.price})`;
+      tourSelect.appendChild(option);
+    });
+
+    // ✅ Allow multiple selections
+    tourSelect.setAttribute("multiple", "multiple");
+
+    // ✅ Auto‑pre‑select tours from cart
+    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    if (savedCart.length > 0) {
+      savedCart.forEach(item => {
+        let option = [...tourSelect.options].find(opt => opt.value == item.id);
+        if (option) option.selected = true;
+      });
+
+      // Show cart summary above form
+      const cartSummary = document.createElement("div");
+      cartSummary.innerHTML = "<h3>Your Selected Tours:</h3>";
+      let ul = document.createElement("ul");
+
+      let total = 0;
+      savedCart.forEach((item) => {
+        let li = document.createElement("li");
+        li.textContent = `${item.name} - $${item.price}`;
+        ul.appendChild(li);
+        total += item.price;
+      });
+
+      let totalLi = document.createElement("li");
+      totalLi.classList.add("cart-total");
+      totalLi.textContent = `Total: $${total}`;
+      ul.appendChild(totalLi);
+
+      cartSummary.appendChild(ul);
+      bookingForm.parentNode.insertBefore(cartSummary, bookingForm);
+    }
+  }
+
   bookingForm.addEventListener("submit", function (e) {
     let name = document.querySelector("input[type='text']").value.trim();
     let email = document.querySelector("input[type='email']").value.trim();
@@ -11,67 +69,39 @@ if (bookingForm) {
     let fullPhone = code + number;
     let people = document.querySelector("input[type='number']").value;
     let date = document.querySelector("input[type='date']").value;
-    let package = document.querySelector("select").value;
+
+    // ✅ Collect multiple selected tours
+    let selectedIds = [...tourSelect.selectedOptions].map(opt => opt.value);
 
     let errors = [];
 
     if (name === "") errors.push("Full name is required.");
     if (!email.includes("@") || !email.includes(".")) errors.push("Please enter a valid email.");
     if (!/^\+\d{7,15}$/.test(fullPhone)) errors.push("Please enter a valid phone number.");
-    if (package === "") errors.push("Please select a tour package.");
+    if (selectedIds.length === 0) errors.push("Please select at least one tour package.");
     if (people < 1) errors.push("Number of people must be at least 1.");
     if (date === "") errors.push("Please select a travel date.");
 
     if (errors.length > 0) {
       alert(errors.join("\n"));
       e.preventDefault();
+    } else {
+      // ✅ Clear cart after booking
+      localStorage.removeItem("cart");
     }
   });
-}
-
-  // Show saved cart summary on book.html
-  const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-  if (savedCart.length > 0) {
-    const cartSummary = document.createElement("div");
-    cartSummary.innerHTML = "<h3>Your Selected Tours:</h3>";
-    let ul = document.createElement("ul");
-
-    let total = 0;
-    savedCart.forEach((item) => {
-      let li = document.createElement("li");
-      li.textContent = `${item.name} - $${item.price}`;
-      ul.appendChild(li);
-      total += item.price;
-    });
-
-    let totalLi = document.createElement("li");
-    totalLi.classList.add("cart-total");
-    totalLi.textContent = `Total: $${total}`;
-    ul.appendChild(totalLi);
-
-    cartSummary.appendChild(ul);
-    bookingForm.parentNode.insertBefore(cartSummary, bookingForm);
-  }
 }
 
 // --------------------
 // Tour Cart (tours.html)
 // --------------------
-const tourPackages = [
-  { id: 1, name: "3 Day Gorilla Trekking", price: 1800 },
-  { id: 2, name: "5 Day Wildlife Safari", price: 2200 },
-  { id: 3, name: "Nile Adventure Tour", price: 600 },
-  { id: 4, name: "Cultural Heritage Tour", price: 350 },
-  { id: 5, name: "Lake Victoria Escape", price: 900 },
-  { id: 6, name: "Rwenzori Mountain Trek", price: 2500 },
-];
-
 let cart = [];
 
 function addToCart(packageId) {
   const selectedPackage = tourPackages.find((pkg) => pkg.id === packageId);
   if (selectedPackage) {
     cart.push(selectedPackage);
+    localStorage.setItem("cart", JSON.stringify(cart));
     displayCart();
     updateCartBadge();
     alert(`${selectedPackage.name} has been added to your cart!`);
@@ -80,12 +110,14 @@ function addToCart(packageId) {
 
 function removeFromCart(index) {
   cart.splice(index, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
   displayCart();
   updateCartBadge();
 }
 
 function clearCart() {
   cart = [];
+  localStorage.removeItem("cart");
   displayCart();
   updateCartBadge();
 }
@@ -105,7 +137,6 @@ function displayCart() {
     let li = document.createElement("li");
     li.textContent = `${item.name} - $${item.price} `;
 
-    // Remove button styled with .btn
     let removeBtn = document.createElement("button");
     removeBtn.textContent = "Remove";
     removeBtn.className = "btn";
@@ -117,13 +148,11 @@ function displayCart() {
     total += item.price;
   });
 
-  // Total line
   let totalLi = document.createElement("li");
   totalLi.classList.add("cart-total");
   totalLi.textContent = `Total: $${total}`;
   cartList.appendChild(totalLi);
 
-  // Checkout button (inside cart)
   let checkoutBtn = document.createElement("button");
   checkoutBtn.textContent = "Proceed to Checkout";
   checkoutBtn.className = "btn-primary";
@@ -133,7 +162,6 @@ function displayCart() {
   };
   cartList.appendChild(checkoutBtn);
 
-  // Clear Cart button
   let clearBtn = document.createElement("button");
   clearBtn.textContent = "Clear Cart";
   clearBtn.className = "btn";
@@ -150,18 +178,16 @@ function updateCartBadge() {
 
   const nav = document.querySelector("nav ul");
 
-  // Create badge if missing
   if (!badge && nav) {
     let li = document.createElement("li");
-    badge = document.createElement("span");
+    badge = document.createElement("a");
     badge.id = "cart-badge";
+    badge.href = "#cart";
     badge.className = "btn-primary";
-    badge.textContent = `Cart (0)`;
     li.appendChild(badge);
     nav.appendChild(li);
   }
 
-  // Create checkout link if missing
   if (!checkoutLink && nav) {
     let li = document.createElement("li");
     checkoutLink = document.createElement("a");
@@ -173,8 +199,16 @@ function updateCartBadge() {
     nav.appendChild(li);
   }
 
-  // Update badge count
   if (badge) {
     badge.textContent = `Cart (${cart.length})`;
+    badge.style.display = cart.length > 0 ? "inline-block" : "none";
+  }
+
+  if (checkoutLink) {
+    checkoutLink.style.display = cart.length > 0 ? "inline-block" : "none";
   }
 }
+
+// Initialize on page load
+updateCartBadge();
+displayCart();
