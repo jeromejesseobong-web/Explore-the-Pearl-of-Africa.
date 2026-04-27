@@ -17,7 +17,7 @@ const bookingForm = document.querySelector("form");
 if (bookingForm) {
   const tourSelect = document.getElementById("tourSelect");
 
-  // ✅ Populate select from tourPackages
+  //  Populate select from tourPackages
   if (tourSelect) {
     tourSelect.innerHTML = "";
     tourPackages.forEach(pkg => {
@@ -27,10 +27,10 @@ if (bookingForm) {
       tourSelect.appendChild(option);
     });
 
-    // ✅ Allow multiple selections
+    //  Allow multiple selections
     tourSelect.setAttribute("multiple", "multiple");
 
-    // ✅ Auto‑pre‑select tours from cart
+    //  Auto‑pre‑select tours from cart
     const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
     if (savedCart.length > 0) {
       savedCart.forEach(item => {
@@ -70,7 +70,7 @@ if (bookingForm) {
     let people = document.querySelector("input[type='number']").value;
     let date = document.querySelector("input[type='date']").value;
 
-    // ✅ Collect multiple selected tours
+    //  Collect multiple selected tours
     let selectedIds = [...tourSelect.selectedOptions].map(opt => opt.value);
 
     let errors = [];
@@ -86,7 +86,7 @@ if (bookingForm) {
       alert(errors.join("\n"));
       e.preventDefault();
     } else {
-      // ✅ Clear cart after booking
+      //  Clear cart after booking
       localStorage.removeItem("cart");
     }
   });
