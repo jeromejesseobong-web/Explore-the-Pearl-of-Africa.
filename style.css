@@ -731,3 +731,52 @@ margin-bottom: 20px;
   color: #0c4a6e;
   margin-bottom: 20px;
 }
+
+/* Cart section styling */
+#cart {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  border-radius: 6px;
+}
+
+/* Cart list items */
+#cart ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#cart li {
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+/* Remove button */
+#cart button {
+  background-color: #e74c3c; /* red tone */
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#cart button:hover {
+  background-color: #c0392b; /* darker red on hover */
+}
+
+/* Checkout button */
+#cart button:last-child {
+  display: block;
+  margin-top: 12px;
+  background-color: #27ae60; /* green tone */
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+}
+
+#cart button:last-child:hover {
+  background-color: #1e8449; /* darker green on hover */
+}
