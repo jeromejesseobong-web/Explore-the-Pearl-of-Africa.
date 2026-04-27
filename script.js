@@ -63,14 +63,17 @@ const tourPackages = [
 // Empty cart to store the selected tours
 let cart = [];
 
+//Add to cart
 function addToCart(packageId) {
   const selectedPackage = tourPackages.find((pkg) => pkg.id === packageId);
   if (selectedPackage) {
     cart.push(selectedPackage);
-    displayCart(); // update cart on page
+    displayCart(); // <-- this makes the cart show up
     alert(`${selectedPackage.name} has been added to your cart!`);
   }
 }
+
+//Display Cart
 function displayCart() {
   const cartSection = document.getElementById("cart");
   const cartList = document.getElementById("cartItems");
@@ -80,8 +83,10 @@ function displayCart() {
     cartSection.style.display = "block";
   }
 
-  cartList.innerHTML = ""; // clear old items
+  // clear old items
+  cartList.innerHTML = "";
 
+  //Add each item
   cart.forEach((item) => {
     let li = document.createElement("li");
     li.textContent = `${item.name} - $${item.price}`;
