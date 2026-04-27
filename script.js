@@ -11,7 +11,7 @@ bookingForm.addEventListener("submit", function (e) {
   let date = document.querySelector("input[type='date']").value;
   let package = document.querySelector("select").value;
 
-  let errors = [];
+  let errors = [];}
 
   // Name validation
   if (name === "") {
