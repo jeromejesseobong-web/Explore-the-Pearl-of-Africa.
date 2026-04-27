@@ -6,7 +6,9 @@ if (bookingForm) {
   bookingForm.addEventListener("submit", function (e) {
     let name = document.querySelector("input[type='text']").value.trim();
     let email = document.querySelector("input[type='email']").value.trim();
-    let phone = document.querySelector("input[type='tel']").value.trim();
+    let code = document.getElementById("countryCode").value;
+    let number = document.getElementById("phoneNumber").value.trim();
+    let fullPhone = code + number;
     let people = document.querySelector("input[type='number']").value;
     let date = document.querySelector("input[type='date']").value;
     let package = document.querySelector("select").value;
@@ -14,10 +16,8 @@ if (bookingForm) {
     let errors = [];
 
     if (name === "") errors.push("Full name is required.");
-    if (!email.includes("@") || !email.includes("."))
-      errors.push("Please enter a valid email.");
-    if (!phone.match(/^\+\d{7,15}$/))
-      errors.push("Please enter a valid phone number.");
+    if (!email.includes("@") || !email.includes(".")) errors.push("Please enter a valid email.");
+    if (!/^\+\d{7,15}$/.test(fullPhone)) errors.push("Please enter a valid phone number.");
     if (package === "") errors.push("Please select a tour package.");
     if (people < 1) errors.push("Number of people must be at least 1.");
     if (date === "") errors.push("Please select a travel date.");
@@ -25,11 +25,33 @@ if (bookingForm) {
     if (errors.length > 0) {
       alert(errors.join("\n"));
       e.preventDefault();
-    } else {
-      // Optional: clear cart after successful booking
-      localStorage.removeItem("cart");
     }
   });
+}
+
+  // Show saved cart summary on book.html
+  const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+  if (savedCart.length > 0) {
+    const cartSummary = document.createElement("div");
+    cartSummary.innerHTML = "<h3>Your Selected Tours:</h3>";
+    let ul = document.createElement("ul");
+
+    let total = 0;
+    savedCart.forEach((item) => {
+      let li = document.createElement("li");
+      li.textContent = `${item.name} - $${item.price}`;
+      ul.appendChild(li);
+      total += item.price;
+    });
+
+    let totalLi = document.createElement("li");
+    totalLi.classList.add("cart-total");
+    totalLi.textContent = `Total: $${total}`;
+    ul.appendChild(totalLi);
+
+    cartSummary.appendChild(ul);
+    bookingForm.parentNode.insertBefore(cartSummary, bookingForm);
+  }
 }
 
 // --------------------
@@ -44,13 +66,12 @@ const tourPackages = [
   { id: 6, name: "Rwenzori Mountain Trek", price: 2500 },
 ];
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart = [];
 
 function addToCart(packageId) {
   const selectedPackage = tourPackages.find((pkg) => pkg.id === packageId);
   if (selectedPackage) {
     cart.push(selectedPackage);
-    localStorage.setItem("cart", JSON.stringify(cart));
     displayCart();
     updateCartBadge();
     alert(`${selectedPackage.name} has been added to your cart!`);
@@ -59,14 +80,12 @@ function addToCart(packageId) {
 
 function removeFromCart(index) {
   cart.splice(index, 1);
-  localStorage.setItem("cart", JSON.stringify(cart));
   displayCart();
   updateCartBadge();
 }
 
 function clearCart() {
   cart = [];
-  localStorage.removeItem("cart");
   displayCart();
   updateCartBadge();
 }
@@ -86,6 +105,7 @@ function displayCart() {
     let li = document.createElement("li");
     li.textContent = `${item.name} - $${item.price} `;
 
+    // Remove button styled with .btn
     let removeBtn = document.createElement("button");
     removeBtn.textContent = "Remove";
     removeBtn.className = "btn";
@@ -97,11 +117,13 @@ function displayCart() {
     total += item.price;
   });
 
+  // Total line
   let totalLi = document.createElement("li");
   totalLi.classList.add("cart-total");
   totalLi.textContent = `Total: $${total}`;
   cartList.appendChild(totalLi);
 
+  // Checkout button (inside cart)
   let checkoutBtn = document.createElement("button");
   checkoutBtn.textContent = "Proceed to Checkout";
   checkoutBtn.className = "btn-primary";
@@ -111,6 +133,7 @@ function displayCart() {
   };
   cartList.appendChild(checkoutBtn);
 
+  // Clear Cart button
   let clearBtn = document.createElement("button");
   clearBtn.textContent = "Clear Cart";
   clearBtn.className = "btn";
@@ -127,17 +150,18 @@ function updateCartBadge() {
 
   const nav = document.querySelector("nav ul");
 
+  // Create badge if missing
   if (!badge && nav) {
     let li = document.createElement("li");
-    badge = document.createElement("a");
+    badge = document.createElement("span");
     badge.id = "cart-badge";
-    badge.href = "#cart";
     badge.className = "btn-primary";
     badge.textContent = `Cart (0)`;
     li.appendChild(badge);
     nav.appendChild(li);
   }
 
+  // Create checkout link if missing
   if (!checkoutLink && nav) {
     let li = document.createElement("li");
     checkoutLink = document.createElement("a");
@@ -149,12 +173,8 @@ function updateCartBadge() {
     nav.appendChild(li);
   }
 
+  // Update badge count
   if (badge) {
     badge.textContent = `Cart (${cart.length})`;
   }
 }
-
-// Initialize on page load
-updateCartBadge();
-displayCart();
-
