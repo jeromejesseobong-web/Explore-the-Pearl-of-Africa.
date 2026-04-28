@@ -7,95 +7,13 @@ const tourPackages = [
   { id: 3, name: "Nile Adventure Tour", price: 600 },
   { id: 4, name: "Cultural Heritage Tour", price: 350 },
   { id: 5, name: "Lake Victoria Escape", price: 900 },
-  { id: 6, name: "Rwenzori Mountain Trek", price: 2500 }
+  { id: 6, name: "Rwenzori Mountain Trek", price: 2500 },
 ];
-
-// --------------------
-// Booking Form Validation (book.html)
-// --------------------
-const bookingForm = document.querySelector("form");
-if (bookingForm) {
-  const tourSelect = document.getElementById("tourSelect");
-
-  //  Populate select from tourPackages
-  if (tourSelect) {
-    tourSelect.innerHTML = "";
-    tourPackages.forEach(pkg => {
-      let option = document.createElement("option");
-      option.value = pkg.id;
-      option.textContent = `${pkg.name} ($${pkg.price})`;
-      tourSelect.appendChild(option);
-    });
-
-    //  Allow multiple selections
-    tourSelect.setAttribute("multiple", "multiple");
-
-    //  Auto‑pre‑select tours from cart
-    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    if (savedCart.length > 0) {
-      savedCart.forEach(item => {
-        let option = [...tourSelect.options].find(opt => opt.value == item.id);
-        if (option) option.selected = true;
-      });
-
-      // Show cart summary above form
-      const cartSummary = document.createElement("div");
-      cartSummary.innerHTML = "<h3>Your Selected Tours:</h3>";
-      let ul = document.createElement("ul");
-
-      let total = 0;
-      savedCart.forEach((item) => {
-        let li = document.createElement("li");
-        li.textContent = `${item.name} - $${item.price}`;
-        ul.appendChild(li);
-        total += item.price;
-      });
-
-      let totalLi = document.createElement("li");
-      totalLi.classList.add("cart-total");
-      totalLi.textContent = `Total: $${total}`;
-      ul.appendChild(totalLi);
-
-      cartSummary.appendChild(ul);
-      bookingForm.parentNode.insertBefore(cartSummary, bookingForm);
-    }
-  }
-
-  bookingForm.addEventListener("submit", function (e) {
-    let name = document.querySelector("input[type='text']").value.trim();
-    let email = document.querySelector("input[type='email']").value.trim();
-    let code = document.getElementById("countryCode").value;
-    let number = document.getElementById("phoneNumber").value.trim();
-    let fullPhone = code + number;
-    let people = document.querySelector("input[type='number']").value;
-    let date = document.querySelector("input[type='date']").value;
-
-    //  Collect multiple selected tours
-    let selectedIds = [...tourSelect.selectedOptions].map(opt => opt.value);
-
-    let errors = [];
-
-    if (name === "") errors.push("Full name is required.");
-    if (!email.includes("@") || !email.includes(".")) errors.push("Please enter a valid email.");
-    if (!/^\+\d{7,15}$/.test(fullPhone)) errors.push("Please enter a valid phone number.");
-    if (selectedIds.length === 0) errors.push("Please select at least one tour package.");
-    if (people < 1) errors.push("Number of people must be at least 1.");
-    if (date === "") errors.push("Please select a travel date.");
-
-    if (errors.length > 0) {
-      alert(errors.join("\n"));
-      e.preventDefault();
-    } else {
-      //  Clear cart after booking
-      localStorage.removeItem("cart");
-    }
-  });
-}
 
 // --------------------
 // Tour Cart (tours.html)
 // --------------------
-let cart = [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function addToCart(packageId) {
   const selectedPackage = tourPackages.find((pkg) => pkg.id === packageId);
@@ -139,7 +57,6 @@ function displayCart() {
 
     let removeBtn = document.createElement("button");
     removeBtn.textContent = "Remove";
-    removeBtn.className = "btn";
     removeBtn.onclick = () => removeFromCart(index);
 
     li.appendChild(removeBtn);
@@ -149,7 +66,6 @@ function displayCart() {
   });
 
   let totalLi = document.createElement("li");
-  totalLi.classList.add("cart-total");
   totalLi.textContent = `Total: $${total}`;
   cartList.appendChild(totalLi);
 
@@ -164,7 +80,6 @@ function displayCart() {
 
   let clearBtn = document.createElement("button");
   clearBtn.textContent = "Clear Cart";
-  clearBtn.className = "btn";
   clearBtn.onclick = clearCart;
   cartList.appendChild(clearBtn);
 }
@@ -212,3 +127,63 @@ function updateCartBadge() {
 // Initialize on page load
 updateCartBadge();
 displayCart();
+
+// --------------------
+// Booking Form Validation (book.html)
+// --------------------
+const bookingForm = document.querySelector("form");
+
+if (bookingForm) {
+  // ✅ Show cart summary above booking form
+  const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+  if (savedCart.length > 0) {
+    const cartSummary = document.createElement("div");
+    cartSummary.innerHTML = "<h3>Your Selected Tours:</h3>";
+    let ul = document.createElement("ul");
+
+    let total = 0;
+    savedCart.forEach((item) => {
+      let li = document.createElement("li");
+      li.textContent = `${item.name} - $${item.price}`;
+      ul.appendChild(li);
+      total += item.price;
+    });
+
+    let totalLi = document.createElement("li");
+    totalLi.textContent = `Total: $${total}`;
+    ul.appendChild(totalLi);
+
+    cartSummary.appendChild(ul);
+    bookingForm.parentNode.insertBefore(cartSummary, bookingForm);
+  }
+
+  bookingForm.addEventListener("submit", function (e) {
+    let name = document.querySelector("input[type='text']").value.trim();
+    let email = document.querySelector("input[type='email']").value.trim();
+    let code = document.getElementById("countryCode").value;
+    let number = document.getElementById("phoneNumber").value.trim();
+    let fullPhone = code + number;
+    let people = document.querySelector("input[type='number']").value;
+    let date = document.querySelector("input[type='date']").value;
+    let package = document.querySelector("select").value;
+
+    let errors = [];
+
+    if (name === "") errors.push("Full name is required.");
+    if (!email.includes("@") || !email.includes("."))
+      errors.push("Please enter a valid email address.");
+    if (!/^\+\d{7,15}$/.test(fullPhone))
+      errors.push("Phone number must start with + and have 7–15 digits.");
+    if (package === "") errors.push("Please select a tour package.");
+    if (people < 1) errors.push("Number of people must be at least 1.");
+    if (date === "") errors.push("Please select a travel date.");
+
+    if (errors.length > 0) {
+      alert(errors.join("\n"));
+      e.preventDefault();
+    } else {
+      // ✅ Clear cart after booking
+      localStorage.removeItem("cart");
+    }
+  });
+}
