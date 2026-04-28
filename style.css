@@ -144,7 +144,6 @@ TOP DESTINATIONS
 ==================================== */
 .container{
 width:90%;
-max-width:3800px;
 padding: auto;
 }
 /* ====================================
@@ -886,4 +885,77 @@ margin-bottom: 20px;
 .cart-summary-table .cart-total {
   font-weight: bold;
   text-align: right;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Reset some defaults */
+.login {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #3a6a3a, #327632); /* green tourism vibe */
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Login container */
+.login-container {
+  background: #e6dcdc;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  width: 350px;
+  text-align: center;
+}
+
+/* Heading */
+.login-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Inputs */
+.login-container input,
+.login-container select {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Button */
+#login-btn {
+  width: 95%;
+  background: #ffd700; /* gold accent */
+  border: none;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  transition: background 0.3s ease;
+}
+
+#login-btn:hover {
+  background: #f4c400;
+}
+
+/* Error message */
+#login-message {
+  margin-top: 10px;
+  color: red;
+  font-size: 14px;
 }
