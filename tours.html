@@ -25,7 +25,7 @@
 
 <li><a href="index.html">Home</a></li>
 <li><a href="destinations.html">Destinations</a></li>
-<li><a>Tour Packages</a></li>
+<li><a class="active">Tour Packages</a></li>
 <li><a href="conservation.html">Conservation</a></li>
 <li><a href="dashboard.html">Impact Dashboard</a></li>
 <li><a href="about.html">About</a></li>
@@ -283,10 +283,27 @@ with experienced mountaineering guides.
 </button>
 </div>
 
-<div id="cart" style="display:none;">
-  <h2>Your Cart</h2>
-  <ul id="cartItems"></ul>
+<<div id="cart">
+  <h3>Your Cart</h3>
+  <table id="cartTable">
+    <thead>
+      <tr>
+        <th>Tour</th>
+        <th>Price</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot>
+      <tr>
+        <td colspan="2" class="cart-total">Total:</td>
+        <td id="cartTotal"></td>
+      </tr>
+      <tr id="cartFooterRow"></tr>
+    </tfoot>
+  </table>
 </div>
+
 
 
 

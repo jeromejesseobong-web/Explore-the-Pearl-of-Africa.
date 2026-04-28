@@ -42,46 +42,65 @@ function clearCart() {
 
 function displayCart() {
   const cartSection = document.getElementById("cart");
-  const cartList = document.getElementById("cartItems");
+  const cartTableBody = document.querySelector("#cartTable tbody");
+  const cartTotalCell = document.getElementById("cartTotal");
+  const cartFooterRow = document.getElementById("cartFooterRow");
 
-  if (!cartSection || !cartList) return;
+  if (!cartSection || !cartTableBody || !cartTotalCell || !cartFooterRow)
+    return;
 
+  // ✅ Hide cart section if empty
   cartSection.style.display = cart.length > 0 ? "block" : "none";
-  cartList.innerHTML = "";
 
+  cartTableBody.innerHTML = "";
   let total = 0;
 
   cart.forEach((item, index) => {
-    let li = document.createElement("li");
-    li.textContent = `${item.name} - $${item.price} `;
+    let row = document.createElement("tr");
 
+    let nameCell = document.createElement("td");
+    nameCell.textContent = item.name;
+
+    let priceCell = document.createElement("td");
+    priceCell.textContent = `$${item.price}`;
+
+    let actionCell = document.createElement("td");
     let removeBtn = document.createElement("button");
     removeBtn.textContent = "Remove";
+    removeBtn.id = "remove-btn"; // unique ID for styling
     removeBtn.onclick = () => removeFromCart(index);
+    actionCell.appendChild(removeBtn);
 
-    li.appendChild(removeBtn);
-    cartList.appendChild(li);
+    row.appendChild(nameCell);
+    row.appendChild(priceCell);
+    row.appendChild(actionCell);
+
+    cartTableBody.appendChild(row);
 
     total += item.price;
   });
 
-  let totalLi = document.createElement("li");
-  totalLi.textContent = `Total: $${total}`;
-  cartList.appendChild(totalLi);
+  cartTotalCell.textContent = `$${total}`;
 
-  let checkoutBtn = document.createElement("button");
-  checkoutBtn.textContent = "Proceed to Checkout";
-  checkoutBtn.className = "btn-primary";
-  checkoutBtn.onclick = () => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-    window.location.href = "book.html";
-  };
-  cartList.appendChild(checkoutBtn);
+  // ✅ Show Clear + Checkout buttons only if cart has items
+  cartFooterRow.innerHTML = "";
+  if (cart.length > 0) {
+    let clearBtn = document.createElement("button");
+    clearBtn.textContent = "Clear Cart";
+    clearBtn.id = "clear-cart-btn"; // unique ID
+    clearBtn.onclick = clearCart;
 
-  let clearBtn = document.createElement("button");
-  clearBtn.textContent = "Clear Cart";
-  clearBtn.onclick = clearCart;
-  cartList.appendChild(clearBtn);
+    let checkoutBtn = document.createElement("button");
+    checkoutBtn.textContent = "Proceed to Checkout";
+    checkoutBtn.id = "checkout-btn"; // unique ID
+    checkoutBtn.onclick = () => {
+      localStorage.setItem("cart", JSON.stringify(cart));
+      window.location.href = "book.html";
+    };
+
+    cartFooterRow.appendChild(clearBtn);
+    cartFooterRow.appendChild(checkoutBtn);
+  }
 }
 
 // --------------------
@@ -98,7 +117,6 @@ function updateCartBadge() {
     badge = document.createElement("a");
     badge.id = "cart-badge";
     badge.href = "#cart";
-    badge.className = "btn-primary";
     li.appendChild(badge);
     nav.appendChild(li);
   }
@@ -108,7 +126,6 @@ function updateCartBadge() {
     checkoutLink = document.createElement("a");
     checkoutLink.id = "checkout-link";
     checkoutLink.href = "book.html";
-    checkoutLink.className = "btn-primary";
     checkoutLink.textContent = "Checkout";
     li.appendChild(checkoutLink);
     nav.appendChild(li);
@@ -139,21 +156,31 @@ if (bookingForm) {
   if (savedCart.length > 0) {
     const cartSummary = document.createElement("div");
     cartSummary.innerHTML = "<h3>Your Selected Tours:</h3>";
-    let ul = document.createElement("ul");
 
+    let table = document.createElement("table");
+    table.className = "cart-summary-table";
+
+    let thead = document.createElement("thead");
+    thead.innerHTML = "<tr><th>Tour</th><th>Price</th></tr>";
+    table.appendChild(thead);
+
+    let tbody = document.createElement("tbody");
     let total = 0;
+
     savedCart.forEach((item) => {
-      let li = document.createElement("li");
-      li.textContent = `${item.name} - $${item.price}`;
-      ul.appendChild(li);
+      let row = document.createElement("tr");
+      row.innerHTML = `<td>${item.name}</td><td>$${item.price}</td>`;
+      tbody.appendChild(row);
       total += item.price;
     });
 
-    let totalLi = document.createElement("li");
-    totalLi.textContent = `Total: $${total}`;
-    ul.appendChild(totalLi);
+    table.appendChild(tbody);
 
-    cartSummary.appendChild(ul);
+    let tfoot = document.createElement("tfoot");
+    tfoot.innerHTML = `<tr><td class="cart-total">Total:</td><td>$${total}</td></tr>`;
+    table.appendChild(tfoot);
+
+    cartSummary.appendChild(table);
     bookingForm.parentNode.insertBefore(cartSummary, bookingForm);
   }
 
@@ -182,8 +209,9 @@ if (bookingForm) {
       alert(errors.join("\n"));
       e.preventDefault();
     } else {
-      // ✅ Clear cart after booking
-      localStorage.removeItem("cart");
+      // ✅ Clear cart fully after booking
+      clearCart();
+      alert("Booking confirmed! Your cart has been cleared.");
     }
   });
 }

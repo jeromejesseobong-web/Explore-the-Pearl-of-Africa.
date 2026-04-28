@@ -128,7 +128,7 @@ form
 BORDERS, MARGINS, PADDING, FONTS
  =============================== */
 *{
-margin:0;
+margin: auto;
 padding:0;
 box-sizing:border-box;
 font-family: Arial, Helvetica, sans-serif;
@@ -144,8 +144,8 @@ TOP DESTINATIONS
 ==================================== */
 .container{
 width:90%;
-max-width:1200px;
-margin:auto;
+max-width:3800px;
+padding: auto;
 }
 /* ====================================
 HEADER / NAVIGATION
@@ -155,8 +155,9 @@ background:#0c4a6e;
 color:white;
 padding:15px 0;
 position:sticky;
-top: 0px;;
+top: 0px;
 z-index:100;
+
 }
 
 header .container{
@@ -178,6 +179,13 @@ font-weight:500;
 nav ul li a:hover{
 color:#ffd700;
 }
+/* Active nav item */
+nav ul li a.active {
+  color: #ffd700;        
+  font-weight: bold;       
+  border-bottom: 2px solid #ffd700; 
+}
+
 /* ====================================
 HERO SECTION
 ==================================== */
@@ -732,28 +740,150 @@ margin-bottom: 20px;
   margin-bottom: 20px;
 }
 
-/* Cart section */
+/* Cart Table */
+#cart{
+  padding: 60px 20px;
+  background: #f5f7fa;
+  width: 50%;
+  margin: auto;
+}
+#cart h3{
+  text-align: center;
+  margin-bottom: 30px;
+  color: #0c4a6e;
+}
+#cartTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+#cartTable th, #cartTable td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+#cartTable th {
+  background-color: #0c4a6e;
+  color: white;
+  font-weight: bold;
+}
+
+#cartTable tr:hover {
+  background-color: #f9f9f9;
+}
+
+.cart-total {
+  font-weight: bold;
+  text-align: right;
+}
+
+/* Header cart badge */
+#cart-badge {
+  font-size: 0.85rem;      
+  padding: 2px;        
+  background-color: #ffd700; 
+  color: #333;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+/* Header checkout link */
+#checkout-link {
+  font-size: 0.85rem;
+  padding: 2px;
+  border-radius: 6px;
+  background-color: #ffd700; 
+  color:#333;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+/* Hover effects */
+#cart-badge:hover,
+#checkout-link:hover {
+  opacity: 0.85;
+}
 #cart {
+  display: none; /* hidden until JS shows it */
   margin-top: 20px;
   padding: 15px;
   border: 1px solid #ccc;
   background: #f9f9f9;
   border-radius: 6px;
 }
-
-/* Cart list */
-#cart ul {
-  list-style-type: none;
-  padding: 0;
+/* Clear Cart button */
+#clear-cart-btn {
+  background: #ccc;
+  color: #333;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  margin: auto;
+  transition: background 0.2s;
 }
 
-#cart li {
-  margin: 8px 0;
-  font-size: 16px;
+#clear-cart-btn:hover {
+  background: #999;
+  color: #fff;
 }
 
-/* Total line */
-.cart-total {
+/* Checkout button */
+#checkout-btn {
+  background: #ffd700;
+  color: #333;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
   font-weight: bold;
-  margin-top: 10px;
+  cursor: pointer;
+  margin: auto;
+  transition: background 0.2s;
+}
+
+#checkout-btn:hover {
+  background: #f4c400;
+}
+
+/* Cart summary table on book.html */
+.cart-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.cart-summary-table th,
+.cart-summary-table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-size: 15px;
+}
+
+.cart-summary-table th {
+  background-color: #0c4a6e;
+  color: #fff;
+  font-weight: bold;
+}
+
+.cart-summary-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+.cart-summary-table .cart-total {
+  font-weight: bold;
+  text-align: right;
 }
