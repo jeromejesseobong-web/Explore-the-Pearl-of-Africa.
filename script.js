@@ -50,7 +50,7 @@ function displayCart() {
     return;
 
   //  Hide cart section if empty
-  cartSection.style.display = cart.length > 0 ? "block" : "none";
+cartSection.style.display = cart.length > 0 ? "block" : "none";
 
   cartTableBody.innerHTML = "";
   let total = 0;
@@ -209,7 +209,7 @@ if (bookingForm) {
       alert(errors.join("\n"));
       e.preventDefault();
     } else {
-      // ✅ Clear cart fully after booking
+      //  Clear cart fully after booking
       clearCart();
       alert("Booking confirmed! Your cart has been cleared.");
     }
