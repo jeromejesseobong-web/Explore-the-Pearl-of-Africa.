@@ -49,7 +49,7 @@ function displayCart() {
   if (!cartSection || !cartTableBody || !cartTotalCell || !cartFooterRow)
     return;
 
-  // ✅ Hide cart section if empty
+  //  Hide cart section if empty
   cartSection.style.display = cart.length > 0 ? "block" : "none";
 
   cartTableBody.innerHTML = "";
@@ -82,7 +82,7 @@ function displayCart() {
 
   cartTotalCell.textContent = `$${total}`;
 
-  // ✅ Show Clear + Checkout buttons only if cart has items
+  //  Show Clear + Checkout buttons only if cart has items
   cartFooterRow.innerHTML = "";
   if (cart.length > 0) {
     let clearBtn = document.createElement("button");
@@ -151,7 +151,7 @@ displayCart();
 const bookingForm = document.querySelector("form");
 
 if (bookingForm) {
-  // ✅ Show cart summary above booking form
+  //  Show cart summary above booking form
   const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
   if (savedCart.length > 0) {
     const cartSummary = document.createElement("div");
